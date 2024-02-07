@@ -1,0 +1,4 @@
+module.exports = {
+  JWT_ACCESS: "SECRET_KEY_RANDOM",
+  JWT_REFRESH: "SECRET_KEY_RANDOM"
+}
