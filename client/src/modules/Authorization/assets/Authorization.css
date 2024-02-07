@@ -44,6 +44,7 @@
 
 .authorization .login-with-google-btn {
   margin-top: 10px;
+  margin-bottom: 10px;
 
   transition: background-color .3s, box-shadow .3s;
     

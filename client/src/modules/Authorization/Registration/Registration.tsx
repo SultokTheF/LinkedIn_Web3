@@ -9,6 +9,8 @@ const Registration: React.FC = () => {
   const initialState = { accounts: [] };              
   const [wallet, setWallet] = useState(initialState); 
 
+  const [signUpWithMetaMask, setSignUpWithMetaMask] = useState<boolean>(false);
+
   useEffect(() => {
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
@@ -19,8 +21,8 @@ const Registration: React.FC = () => {
   }, [])
 
   const updateWallet = async (accounts:any) => {  
-    console.log(wallet.accounts[0]); 
-    setWallet({ accounts });                     
+    setSignUpWithMetaMask(true);
+    setWallet({ accounts });
   }                                                
 
   const handleConnect = async () => {              
@@ -30,33 +32,57 @@ const Registration: React.FC = () => {
     updateWallet(accounts);                         
   }    
 
+  const goBack = () => {
+    setSignUpWithMetaMask(false);
+  }
+
   return (
     <div className="authorization">
       <h1>Registration</h1>
 
       <form>
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" placeholder="Username" />
+        { signUpWithMetaMask ? (
+          <>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Password" />
 
-        <label htmlFor="bio">Bio</label>
-        <textarea id="bio" placeholder="Bio"></textarea>
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" />
 
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" placeholder="Email" />
+            { hasProvider && 
+              <button type="button" className="login-with-google-btn" onClick={handleConnect}>
+                Sign Up with MetaMask
+              </button>
+            } 
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder="Password" />
+            <button onClick={goBack}>&laquo; back</button>
+          </>
+        ) : (
+          <>
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" placeholder="Username" />
 
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" placeholder="Confirm Password" />
+            <label htmlFor="bio">Bio</label>
+            <textarea id="bio" placeholder="Bio"></textarea>
 
-        <button>Sign Up</button>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" placeholder="Email" />
 
-        { hasProvider && 
-          <button type="button" className="login-with-google-btn" onClick={handleConnect}>
-            Sign Up with MetaMask
-          </button>
-        } 
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Password" />
+
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" />
+
+            <button>Sign Up</button>
+
+            { hasProvider && 
+              <button type="button" className="login-with-google-btn" onClick={handleConnect}>
+                Sign Up with MetaMask
+              </button>
+            } 
+          </>
+        ) }
 
         <p>Already have an account? <a href="/login">Login</a></p>
       </form>
