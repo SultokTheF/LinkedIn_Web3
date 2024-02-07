@@ -10,6 +10,8 @@ router.post("/registration",[
   check("bio", "Bio is required").notEmpty(),
   check("password", "Password must be between 4 and 10 characters").isLength({ min: 4, max: 10 })
 ] , authController.registration);
-router.post("/registrationWithMetaMask", authController.registration);
+router.post("/registrationWithMetaMask",[
+  check("wallet_address", "Wallet_address is required").notEmpty(),
+] , authController.registrationWithMetaMask);
 
 module.exports = router;

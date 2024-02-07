@@ -34,7 +34,7 @@ class AuthServices {
     const hashPassword = await bcrypt.hash(password, 3);
     
     const newUser = new User({
-      wallet_address,
+      wallet_address: wallet_address,
       password: hashPassword,
     });
 

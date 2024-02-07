@@ -20,6 +20,11 @@ const Registration: React.FC = () => {
     password: "",
   });
 
+  const [userMetaMaskData, setUserMetaMaskData] = useState<User>({
+    wallet_address: wallet.accounts[0],
+    password: ""
+  });
+
   const [signUpWithMetaMask, setSignUpWithMetaMask] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,7 +44,8 @@ const Registration: React.FC = () => {
     let accounts = await window.ethereum.request({ 
       method: "eth_requestAccounts",               
     });                                             
-    updateWallet(accounts);                         
+    updateWallet(accounts);
+    setSignUpWithMetaMask(true);                         
   }
 
   const goBack = () => {
@@ -57,11 +63,39 @@ const Registration: React.FC = () => {
     try {
       const response = await axios.post(AuthEndpoints.register, userData);
 
-      if (response.status === 201) {
+      if (response.status === 204) {
         setUserData({
           username: "",
           email: "",
           bio: "",
+          password: ""
+        });
+
+        alert("Registration successful");
+      } else {
+        
+      }
+    } catch (e) {
+      return console.error("Error:", e);
+    }
+  };
+
+  const handleRegistrationWithMetaMask = async (e: FormEvent) => {
+    e.preventDefault();
+
+    try {
+      console.log(wallet.accounts[0]);
+
+      setUserMetaMaskData({
+        wallet_address: wallet.accounts[0],
+        password: ""
+      });
+
+      const response = await axios.post(AuthEndpoints.registerWithMetaMask, userMetaMaskData);
+
+      if (response.status === 201) {
+        setUserMetaMaskData({
+          wallet_address: wallet.accounts[0],
           password: ""
         });
 
@@ -99,7 +133,7 @@ const Registration: React.FC = () => {
               />
 
               { hasProvider && 
-                <button type="submit" className="login-with-google-btn" onClick={handleConnect}>
+                <button type="submit" className="login-with-google-btn" onClick={handleRegistrationWithMetaMask}>
                   Sign Up with MetaMask
                 </button>
               } 
@@ -162,7 +196,7 @@ const Registration: React.FC = () => {
               <button>Sign Up</button>
 
               { hasProvider && 
-                <button type="button" className="login-with-google-btn" onClick={goMetaMask}>
+                <button type="button" className="login-with-google-btn" onClick={handleConnect}>
                   Sign Up with MetaMask
                 </button>
               } 
