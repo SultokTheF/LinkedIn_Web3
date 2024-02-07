@@ -1,0 +1,12 @@
+body {
+
+}
+
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --background-color: #f2f2f2;
+  --border-color: #ccc;
+  --text-color: #000;
+  --button-text-color: #fff;
+}
