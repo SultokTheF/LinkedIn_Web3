@@ -109,10 +109,9 @@ const Registration: React.FC = () => {
   };
 
   return (
-    <div className="authorization">
-      <h1>Registration</h1>
-
-      
+    <div className="registration">
+      <div className="authorization flex">
+        <h1>Registration</h1>
         { signUpWithMetaMask ? (
           <>
             <form>
@@ -145,7 +144,7 @@ const Registration: React.FC = () => {
           </>
         ) : (
           <>
-            <form onSubmit={handleRegistration}>
+            <form onSubmit={handleRegistration} className="signup_form">
               <label htmlFor="username">Username</label>
               <input 
                 type="text" 
@@ -190,7 +189,7 @@ const Registration: React.FC = () => {
                 type="password" 
                 id="confirm-password" 
                 placeholder="Confirm Password" 
-                // required
+                required
               />
 
               <button>Sign Up</button>
@@ -206,6 +205,7 @@ const Registration: React.FC = () => {
           </>
         
         ) }
+      </div>
     </div>
   );
 };

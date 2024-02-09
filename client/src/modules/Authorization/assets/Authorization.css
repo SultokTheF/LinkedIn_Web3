@@ -7,6 +7,7 @@
 }
 
 .authorization form {
+  margin-top: 20%;
   width: 300px;
   padding: 20px;
   background-color: var(--background-color);
@@ -79,4 +80,12 @@
 
 .authorization a:hover {
   text-decoration: underline;
+}
+
+.authorization h1 {
+  position: absolute;
+  left: 0px;
+  margin-right: 100px;
+  left: -100%;
+  transform: translate(50%, 0%);
 }

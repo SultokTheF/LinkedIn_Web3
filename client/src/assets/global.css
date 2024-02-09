@@ -1,5 +1,6 @@
 body {
-
+  margin: 0;
+  padding: 0;
 }
 
 :root {
@@ -9,4 +10,14 @@ body {
   --border-color: #ccc;
   --text-color: #000;
   --button-text-color: #fff;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+}
+
+.grid{
+  display: grid;
+  align-items: center;
 }

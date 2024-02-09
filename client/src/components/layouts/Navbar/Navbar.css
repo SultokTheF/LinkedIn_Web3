@@ -1,0 +1,64 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+.navbar__brand a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar__brand img {
+  margin: 5px;
+  height: 32px;
+}
+
+.navbar__brand {
+  flex-grow: 1; /* Allow the brand to expand and take up remaining space */
+}
+
+.navbar__links {
+  display: flex;
+  justify-content: right; /* Center the navigation links */
+  flex-grow: 2; /* Allow the links to expand and take up remaining space */
+}
+
+.navbar__links a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar__links a:last-child {
+  margin-right: 0;
+}
+
+.navbar__buttons {
+  flex-grow: 1; /* Allow the buttons to take up remaining space */
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+}
+
+.navbar__buttons a {
+  text-decoration: none;
+  text-align: center;
+}
+
+.navbar__buttons .btn {
+  width: 150px;
+  margin: 5px;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar__buttons .btn:hover {
+  background-color: var(--primary-hover-color);
+}
