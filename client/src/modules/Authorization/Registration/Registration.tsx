@@ -13,19 +13,23 @@ const Registration: React.FC = () => {
   const initialState = { accounts: [] };              
   const [wallet, setWallet] = useState(initialState); 
 
-  const [userData, setUserData] = useState<User>({
+  const [userData, setUserData] = useState<User & { confirm_password: string }>({
     username: "",
     email: "",
     bio: "",
     password: "",
+    confirm_password: ""
   });
 
-  const [userMetaMaskData, setUserMetaMaskData] = useState<User>({
-    wallet_address: wallet.accounts[0],
-    password: ""
+  const [userMetaMaskData, setUserMetaMaskData] = useState<User & { confirm_password?: string }>({
+    wallet_address: wallet.accounts[0] || "",
+    password: "",
+    confirm_password: ""
   });
 
   const [signUpWithMetaMask, setSignUpWithMetaMask] = useState<boolean>(false);
+
+  const [errorMsg, setErrorMsg] = useState<String>("");
 
   useEffect(() => {
     const getProvider = async () => {
@@ -34,17 +38,19 @@ const Registration: React.FC = () => {
     }
 
     getProvider()
-  }, [])
-
-  const updateWallet = async (accounts:any) => {
-    setWallet({ accounts });
-  }                                                
+  }, [])                                             
 
   const handleConnect = async () => {              
-    let accounts = await window.ethereum.request({ 
+    const accounts = await window.ethereum.request({ 
       method: "eth_requestAccounts",               
-    });                                             
-    updateWallet(accounts);
+    });                  
+
+    setWallet({ accounts });
+
+    setUserMetaMaskData({
+      wallet_address: accounts[0]
+    });
+
     setSignUpWithMetaMask(true);                         
   }
 
@@ -52,59 +58,52 @@ const Registration: React.FC = () => {
     setSignUpWithMetaMask(false);
   }
 
-  const goMetaMask = () => {
-    setSignUpWithMetaMask(true);
-  }
-
-
   const handleRegistration = async (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(AuthEndpoints.register, userData);
+    if(userData.password == userData.confirm_password) {
+      try {
+        const response = await axios.post(AuthEndpoints.register, userData);
 
-      if (response.status === 204) {
-        setUserData({
-          username: "",
-          email: "",
-          bio: "",
-          password: ""
-        });
-
-        alert("Registration successful");
-      } else {
-        
+        if (response.status === 200) {
+          setErrorMsg("");
+          window.location.replace("/login");
+        } else {
+          setErrorMsg("Something went wrong! Please try later")
+        }
+      } catch (e) {
+        console.error("Error:", e);
+        setErrorMsg("This username or email is already in use!");
       }
-    } catch (e) {
-      return console.error("Error:", e);
+    } else {
+      console.error("passwords don't match!");
+      setErrorMsg("Passwords don't match!");
     }
   };
 
   const handleRegistrationWithMetaMask = async (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      console.log(wallet.accounts[0]);
-
-      setUserMetaMaskData({
-        wallet_address: wallet.accounts[0],
-        password: ""
-      });
-
-      const response = await axios.post(AuthEndpoints.registerWithMetaMask, userMetaMaskData);
-
-      if (response.status === 201) {
-        setUserMetaMaskData({
-          wallet_address: wallet.accounts[0],
-          password: ""
-        });
-
-        alert("Registration successful");
-      } else {
-        
+    if(userMetaMaskData.password == userMetaMaskData.confirm_password) {
+      try {
+        console.log(userMetaMaskData.wallet_address);
+        const response = await axios.post(AuthEndpoints.registerWithMetaMask, userMetaMaskData);
+  
+        if (response.status === 200) {
+          setErrorMsg("");
+          window.location.replace(
+            "/login",
+          );
+        } else {
+          setErrorMsg("Something went wrong! Please try later")
+        }
+      } catch (e) {
+        console.error("Error:", e);
+        setErrorMsg("This wallet is already in use!");
       }
-    } catch (e) {
-      return console.error("Error:", e);
+    } else {
+      console.error("passwords don't match!");
+      setErrorMsg("Passwords don't match!");
     }
   };
 
@@ -114,25 +113,29 @@ const Registration: React.FC = () => {
         <h1>Registration</h1>
         { signUpWithMetaMask ? (
           <>
-            <form>
-              <label htmlFor="password">Password</label>
+            <form onSubmit={handleRegistrationWithMetaMask}>
+              <label htmlFor="password_metamask">Password</label>
               <input 
                 type="password" 
-                id="password" 
+                id="password_metamask" 
                 placeholder="Password" 
+                value={userMetaMaskData.password}
+                onChange={(e) => setUserMetaMaskData({ ...userMetaMaskData, password: e.target.value })}
                 required
               />
 
-              <label htmlFor="confirm-password">Confirm Password</label>
+              <label htmlFor="confirm-password_metamask">Confirm Password</label>
               <input 
                 type="password" 
-                id="confirm-password" 
+                id="confirm-password_metamask" 
                 placeholder="Confirm Password" 
+                value={userMetaMaskData.confirm_password || ''} // Ensure controlled status
+                onChange={(e) => setUserMetaMaskData({ ...userMetaMaskData, confirm_password: e.target.value })}
                 required
               />
 
               { hasProvider && 
-                <button type="submit" className="login-with-google-btn" onClick={handleRegistrationWithMetaMask}>
+                <button type="submit" className="login-with-google-btn">
                   Sign Up with MetaMask
                 </button>
               } 
@@ -140,6 +143,7 @@ const Registration: React.FC = () => {
               <button onClick={goBack}>&laquo; back</button>
 
               <p>Already have an account? <a href="/login">Login</a></p>
+              <p className="errorMsg"> {errorMsg} </p>
             </form>
           </>
         ) : (
@@ -189,6 +193,8 @@ const Registration: React.FC = () => {
                 type="password" 
                 id="confirm-password" 
                 placeholder="Confirm Password" 
+                value={userData.confirm_password ||  ''} // Ensure controlled status
+                onChange={(e) => setUserData({ ...userData, confirm_password: e.target.value })}
                 required
               />
 

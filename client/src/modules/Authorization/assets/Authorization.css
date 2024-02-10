@@ -74,6 +74,10 @@
   text-align: center;
 }
 
+.authorization .errorMsg {
+  color: red;
+}
+
 .authorization a {
   text-decoration: none;
 }
@@ -84,7 +88,7 @@
 
 .authorization h1 {
   position: absolute;
-  left: 0px;
+  text-align: left;
   margin-right: 100px;
   left: -100%;
   transform: translate(50%, 0%);

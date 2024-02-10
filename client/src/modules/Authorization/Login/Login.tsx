@@ -125,7 +125,7 @@ const Login: React.FC = () => {
 
               { hasProvider && 
                 <button type="submit" className="login-with-google-btn" onClick={handleRegistrationWithMetaMask}>
-                  Sign Up with MetaMask
+                  Login with MetaMask
                 </button>
               } 
 
