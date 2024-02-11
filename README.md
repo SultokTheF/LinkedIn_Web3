@@ -41,8 +41,8 @@ This project is licensed under the MIT license.
 
 ## Contact information
 
-* **Email:** sultokthef@gmail.com
-* **Twitter:** https://twitter.com/sultokthef
+* **Telegram:** @kair7sky
+
 
 
 Contact
