@@ -43,7 +43,7 @@ This project is licensed under the MIT license.
 
 ## Contact information
 
-* **Telegram:** @kair7sky
+* **Telegram:** @kair7sky @akosy4ch
 Feel free to connect with me on telegram.
 
 Best of luck with your project! If you have any further questions, feel free to ask. 🚀
