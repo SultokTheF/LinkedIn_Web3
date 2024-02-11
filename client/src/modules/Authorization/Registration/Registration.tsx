@@ -1,12 +1,12 @@
-import "../assets/Authorization.css";
-import "./Registration";
-
 import React, { useState, useEffect, FormEvent } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import axios from "axios";
 
-import { AuthEndpoints } from "../../../constants/endpoints";
+import AuthService from "../../../services/AuthService";
+
 import User from "../../../types/User";
+
+import "../assets/Authorization.css";
+import "./Registration";
 
 const Registration: React.FC = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null);
@@ -60,52 +60,52 @@ const Registration: React.FC = () => {
 
   const handleRegistration = async (e: FormEvent) => {
     e.preventDefault();
-
-    if(userData.password == userData.confirm_password) {
+  
+    if (userData.password === userData.confirm_password) {
       try {
-        const response = await axios.post(AuthEndpoints.register, userData);
-
-        if (response.status === 200) {
+        // Call the register method from AuthService
+        const response = await AuthService.register(userData);
+  
+        if (response) {
           setErrorMsg("");
           window.location.replace("/login");
         } else {
           setErrorMsg("Something went wrong! Please try later")
         }
-      } catch (e) {
-        console.error("Error:", e);
+      } catch (error) {
+        console.error("Error:", error);
         setErrorMsg("This username or email is already in use!");
       }
     } else {
-      console.error("passwords don't match!");
+      console.error("Passwords don't match!");
       setErrorMsg("Passwords don't match!");
     }
   };
-
+  
   const handleRegistrationWithMetaMask = async (e: FormEvent) => {
     e.preventDefault();
-
-    if(userMetaMaskData.password == userMetaMaskData.confirm_password) {
+  
+    if (userMetaMaskData.password === userMetaMaskData.confirm_password) {
       try {
         console.log(userMetaMaskData.wallet_address);
-        const response = await axios.post(AuthEndpoints.registerWithMetaMask, userMetaMaskData);
+        // Call the registerWithMetaMask method from AuthService
+        const response = await AuthService.registerWithMetaMask(userMetaMaskData);
   
-        if (response.status === 200) {
+        if (response) {
           setErrorMsg("");
-          window.location.replace(
-            "/login",
-          );
+          window.location.replace("/login");
         } else {
           setErrorMsg("Something went wrong! Please try later")
         }
-      } catch (e) {
-        console.error("Error:", e);
+      } catch (error) {
+        console.error("Error:", error);
         setErrorMsg("This wallet is already in use!");
       }
     } else {
-      console.error("passwords don't match!");
+      console.error("Passwords don't match!");
       setErrorMsg("Passwords don't match!");
     }
-  };
+  };  
 
   return (
     <div className="registration">

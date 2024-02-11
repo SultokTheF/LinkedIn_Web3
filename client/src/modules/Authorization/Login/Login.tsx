@@ -1,31 +1,30 @@
-import "../assets/Authorization.css";
-import "./Login.css";
-
 import React, { useState, useEffect, FormEvent } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import axios from "axios";
 
-import { AuthEndpoints } from "../../../constants/endpoints";
+import AuthService from "../../../services/AuthService";
+
 import User from "../../../types/User";
+
+import "../assets/Authorization.css";
+import "./Login.css";
 
 const Login: React.FC = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null);
   const initialState = { accounts: [] };              
-  const [wallet, setWallet] = useState(initialState); 
+  const [wallet, setWallet] = useState(initialState);
 
   const [userData, setUserData] = useState<User>({
-    username: "",
     email: "",
-    bio: "",
-    password: "",
+    password: ""
   });
 
   const [userMetaMaskData, setUserMetaMaskData] = useState<User>({
-    wallet_address: wallet.accounts[0],
+    wallet_address: wallet.accounts[0] || "",
     password: ""
   });
 
   const [signUpWithMetaMask, setSignUpWithMetaMask] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<String>("");
 
   useEffect(() => {
     const getProvider = async () => {
@@ -34,17 +33,19 @@ const Login: React.FC = () => {
     }
 
     getProvider()
-  }, [])
-
-  const updateWallet = async (accounts:any) => {
-    setWallet({ accounts });
-  }                                                
+  }, [])                                         
 
   const handleConnect = async () => {              
-    let accounts = await window.ethereum.request({ 
+    const accounts = await window.ethereum.request({ 
       method: "eth_requestAccounts",               
-    });                                             
-    updateWallet(accounts);
+    });                  
+
+    setWallet({ accounts });
+
+    setUserMetaMaskData({
+      wallet_address: accounts[0]
+    });
+
     setSignUpWithMetaMask(true);                         
   }
 
@@ -52,61 +53,41 @@ const Login: React.FC = () => {
     setSignUpWithMetaMask(false);
   }
 
-  const goMetaMask = () => {
-    setSignUpWithMetaMask(true);
-  }
-
-
-  const handleRegistration = async (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-
+    
     try {
-      const response = await axios.post(AuthEndpoints.register, userData);
+      const response = await AuthService.login(userData);
 
-      if (response.status === 204) {
-        setUserData({
-          username: "",
-          email: "",
-          bio: "",
-          password: ""
-        });
-
-        alert("Registration successful");
+      if (response) {
+        setErrorMsg("");
+        window.location.replace("/user");
       } else {
-        
+        setErrorMsg("Invalid email or password");
       }
-    } catch (e) {
-      return console.error("Error:", e);
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMsg("Failed to login");
     }
   };
-
-  const handleRegistrationWithMetaMask = async (e: FormEvent) => {
+  
+  const handleLoginWithMetaMask = async (e: FormEvent) => {
     e.preventDefault();
-
+    
     try {
-      console.log(wallet.accounts[0]);
+      const response = await AuthService.loginWithMetaMask(userMetaMaskData);
 
-      setUserMetaMaskData({
-        wallet_address: wallet.accounts[0],
-        password: ""
-      });
-
-      const response = await axios.post(AuthEndpoints.registerWithMetaMask, userMetaMaskData);
-
-      if (response.status === 201) {
-        setUserMetaMaskData({
-          wallet_address: wallet.accounts[0],
-          password: ""
-        });
-
-        alert("Registration successful");
+      if (response) {
+        setErrorMsg("");
+        window.location.replace("/user");
       } else {
-        
+        setErrorMsg("Invalid email or password");
       }
-    } catch (e) {
-      return console.error("Error:", e);
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMsg("Failed to login");
     }
-  };
+  };  
 
   return (
     <div className="login">
@@ -114,17 +95,19 @@ const Login: React.FC = () => {
         <h1>Login</h1>
         { signUpWithMetaMask ? (
           <>
-            <form>
+            <form onSubmit={handleLoginWithMetaMask}>
               <label htmlFor="password">Password</label>
               <input 
                 type="password" 
                 id="password" 
                 placeholder="Password" 
+                value={userMetaMaskData.password}
+                onChange={(e) => setUserMetaMaskData({ ...userMetaMaskData, password: e.target.value })}
                 required
               />
 
               { hasProvider && 
-                <button type="submit" className="login-with-google-btn" onClick={handleRegistrationWithMetaMask}>
+                <button type="submit" className="login-with-google-btn">
                   Login with MetaMask
                 </button>
               } 
@@ -132,16 +115,17 @@ const Login: React.FC = () => {
               <button onClick={goBack}>&laquo; back</button>
 
               <p>Do not have an account? <a href="/registration">Sign Up</a></p>
+              <p className="errorMsg"> {errorMsg} </p>
             </form>
           </>
         ) : (
           <>
-            <form onSubmit={handleRegistration}>
+            <form onSubmit={handleLogin}>
               <label htmlFor="email">Email</label>
               <input 
                 type="email" 
                 id="email" 
-                placeholder="Email" 
+                placeholder="Email"
                 value={ userData.email }
                 onChange={ (e) => setUserData({ ...userData, email: e.target.value }) }
                 required
@@ -166,6 +150,7 @@ const Login: React.FC = () => {
               } 
 
               <p>Do not have an account? <a href="/registration">Sign Up</a></p>
+              <p className="errorMsg"> {errorMsg} </p>
             </form>
           </>
         )}

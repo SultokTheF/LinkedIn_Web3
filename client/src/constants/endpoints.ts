@@ -6,7 +6,9 @@ const AuthEndpoints = {
   register: createEndpoint("auth/registration"),
   registerWithMetaMask: createEndpoint("auth/registrationWithMetaMask"),
   login: createEndpoint("auth/login"),
+  loginWithMetaMask: createEndpoint("auth/loginWithMetaMask"),
   refreshToken: createEndpoint("auth/token/refresh"),
+  logout: createEndpoint("auth/logout")
 };
 
 export {
