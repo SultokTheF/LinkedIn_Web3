@@ -5,7 +5,7 @@ Students:Kairkhanov Abylaikhan, Kamiluly Alibek, Sultaniyar Quandyq
 **Assignment 3**
 **Group: SE-2221**
 **Students:Kairkhanov Abylaikhan, Kamiluly Alibek, Sultaniyar Quandyq**
-Project Description
+### Project Description
 This project consists of a set of tasks related to blockchain technology. You’ll find the following components:
 
 Smart Contracts: Implementation of smart contracts on Ethereum using Solidity.
@@ -22,20 +22,20 @@ npm install
 Run Tests:
 npm test
 
-Usage Examples
+**Usage Examples**
 You can find usage examples of smart contracts and blockchain interaction in the examples directory.
 
-Requirements
+**Requirements**
 To run the project, you’ll need:
 
 Node.js
 Ganache (local blockchain)
 MetaMask (for interacting with the blockchain)
-License
-This project is distributed under the MIT License. See the LICENSE file for details.
+**License**
+This project is distributed under the MIT License.
 
 Contact
-Feel free to connect with me on LinkedIn.
+Feel free to connect with me on telegram.
 
 Best of luck with your project! If you have any further questions, feel free to ask. 🚀
 
