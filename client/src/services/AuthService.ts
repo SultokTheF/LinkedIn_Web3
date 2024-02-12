@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { AuthEndpoints } from '../constants/endpoints';
+
 import AuthResponse from "../types/AuthResponce";
 import User from '../types/User';
 

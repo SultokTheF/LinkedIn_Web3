@@ -1,6 +1,6 @@
 import LoginPage from "./AuthorizationPages/LoginPage";
 import RegistrationPage from "./AuthorizationPages/RegistrationPage";
 
-import UserProfilePage from "./UserProfilePage";
+import ProfilePage from "./UserPages/ProfilePage";
 
-export { LoginPage, RegistrationPage, UserProfilePage };
+export { LoginPage, RegistrationPage, ProfilePage };

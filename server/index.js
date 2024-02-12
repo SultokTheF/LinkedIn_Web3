@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const authRoutes = require("./routes/authRoutes");
+const userRoures = require("./routes/userRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 const BASE_URL = "/api/v1";
 
 app.use(`${BASE_URL}/auth`, authRoutes);
+app.use(`${BASE_URL}/user`, userRoures);
 
 const start = async () => {
   try {

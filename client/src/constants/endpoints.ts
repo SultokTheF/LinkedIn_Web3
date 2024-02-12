@@ -11,6 +11,11 @@ const AuthEndpoints = {
   logout: createEndpoint("auth/logout")
 };
 
+const UserEndpoints = {
+  profile: createEndpoint("user/profile")
+}
+
 export {
-  AuthEndpoints
+  AuthEndpoints,
+  UserEndpoints
 };

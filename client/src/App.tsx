@@ -5,14 +5,14 @@ import "./assets/global.css";
 
 import { Navbar } from "./components/layouts";
 
-import { LoginPage, RegistrationPage, UserProfilePage } from "./pages";
+import { LoginPage, RegistrationPage, ProfilePage } from "./pages";
 
 const App: React.FC = () => {
   return (
     <>
       <Navbar/>
       <Routes>
-        <Route path="/user/:username" element={ <UserProfilePage /> } />
+        <Route path="/profile" element={ <ProfilePage /> } />
 
         <Route path='/login' element={ <LoginPage /> } />
         <Route path="/registration" element={ <RegistrationPage /> } />

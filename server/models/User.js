@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   lastname: {type: String},
   password: {type: String},
   created_at: {type: Date, default: Date.now},
-  wallet_address: {type: String}
+  wallet_address: {type: String, unique: true}
 });
 
 module.exports = model('User', UserSchema);

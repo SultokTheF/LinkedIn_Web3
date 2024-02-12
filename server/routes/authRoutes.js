@@ -1,17 +1,16 @@
 const Router = require("express");
-const { check } = require("express-validator");
-const authController = require("../controllers/authControllers");
+const AuthControllers = require("../controllers/authControllers");
 
 const router = new Router();
 
-router.post("/registration", authController.registration);
-router.post("/registrationWithMetaMask", authController.registrationWithMetaMask);
+router.post("/registration", AuthControllers.registration);
+router.post("/registrationWithMetaMask", AuthControllers.registrationWithMetaMask);
 
-router.post("/login", authController.login);
-router.post("/loginWithMetaMask", authController.loginWithMetaMask);
+router.post("/login", AuthControllers.login);
+router.post("/loginWithMetaMask", AuthControllers.loginWithMetaMask);
 
-router.post("/logout", authController.logout);
+router.post("/logout", AuthControllers.logout);
 
-router.get('/refresh', authController.refresh);
+router.get('/refresh', AuthControllers.refresh);
 
 module.exports = router;

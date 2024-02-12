@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const AuthServices = require("../services/authServices");
 
-class AuthController {
+class AuthControllers {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req);
@@ -78,4 +78,4 @@ class AuthController {
 }
 }
 
-module.exports = new AuthController();
+module.exports = new AuthControllers();
