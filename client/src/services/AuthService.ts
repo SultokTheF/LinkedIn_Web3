@@ -79,17 +79,21 @@ class AuthService {
     }
   }
 
-  static async logout(refreshToken: string): Promise<void> {
+  static async logout(): Promise<void> {
     try {
       await axios.post(
         AuthEndpoints.logout,
         {},
         {
           headers: {
-            Authorization: `Bearer ${refreshToken}`,
+            Authorization: `Bearer ${localStorage.getItem('refreshToken')}`,
           },
         }
       );
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      window.location.replace( '/' );
     } catch (error) {
       throw new Error('Failed to logout');
     }

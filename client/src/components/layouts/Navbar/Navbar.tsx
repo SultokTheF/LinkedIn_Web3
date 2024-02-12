@@ -40,10 +40,26 @@ const Navbar: React.FC = () => {
 
       {loginStatus ? (
         <>
-          <div className="navbar__buttons">
-            <Link to="/profile" className='btn'>Profile</Link>
-            <button className='btn'>Logout</button>
-          </div>
+          { userProfile?.username ? (
+            <>
+              <div className="navbar__buttons">
+                <Link to="/profile" className='btn'> {userProfile?.username} </Link>
+                <button className='btn' onClick={() => {
+                  AuthService.logout();
+                }} >Logout</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="navbar__buttons">
+                <Link to="/profile" className='btn'> Profile </Link>
+                <button className='btn' onClick={() => {
+                  localStorage.removeItem( 'accessToken' );
+                  window.location.replace( '/' );
+                }} >Logout</button>
+              </div>
+            </>
+          ) }
         </>
       ) : (
         <>
