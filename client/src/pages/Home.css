@@ -1,0 +1,42 @@
+.home-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post-form {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.post-form input {
+  flex: 1;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.posts {
+  display: grid;
+  gap: 10px;
+}
+
+.post {
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: relative;
+}
+
+.post-content {
+  margin-bottom: 10px;
+}
+
+.post button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

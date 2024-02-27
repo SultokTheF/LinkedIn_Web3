@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import "./assets/global.css";
 
 import { Navbar } from "./components/layouts";
-
+import Home from "./pages/Home";
 import { LoginPage, RegistrationPage, ProfilePage } from "./pages";
 
 const App: React.FC = () => {
@@ -12,6 +12,7 @@ const App: React.FC = () => {
     <>
       <Navbar/>
       <Routes>
+        <Route path="/" element={ <Home />} />
         <Route path="/profile" element={ <ProfilePage /> } />
 
         <Route path='/login' element={ <LoginPage /> } />
