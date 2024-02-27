@@ -15,7 +15,7 @@ class PostControllers {
 
   async getPosts(req, res, next) {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().populate("user");
       res.json(posts);
     } catch (error) {
       next(error);
