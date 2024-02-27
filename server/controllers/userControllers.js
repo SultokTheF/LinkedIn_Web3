@@ -6,15 +6,16 @@ const User = require("../models/User");
 class UserControllers {
   async getProfile(req, res, next) {
     const accessToken = req.headers.authorization;
-
     const tokenData = TokenServices.validateAccessToken(accessToken);
+  
     try {
-        const user = await User.findById(tokenData.user.id);
-        return res.json(user);
+      const user = await User.findById(tokenData.user.id).populate('posts');
+      return res.json(user);
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
+  
 
   async updateProfile(req, res, next) {
     const userID = req.params.id;
